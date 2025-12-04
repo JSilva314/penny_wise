@@ -1,9 +1,9 @@
-import NextAuth from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "@/lib/prisma"
-import Credentials from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
-import { z } from "zod"
+import NextAuth from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -23,38 +23,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         const parsedCredentials = z
-          .object({ 
-            email: z.string().email(), 
-            password: z.string().min(6) 
+          .object({
+            email: z.string().email(),
+            password: z.string().min(6),
           })
-          .safeParse(credentials)
+          .safeParse(credentials);
 
         if (!parsedCredentials.success) {
-          return null
+          return null;
         }
 
-        const { email, password } = parsedCredentials.data
+        const { email, password } = parsedCredentials.data;
 
         const user = await prisma.user.findUnique({
           where: { email },
-        })
+        });
 
         if (!user || !user.password) {
-          return null
+          return null;
         }
 
-        const passwordsMatch = await bcrypt.compare(password, user.password)
+        const passwordsMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordsMatch) {
-          return null
+          return null;
         }
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-        }
+        };
       },
     }),
   ],
-})
+});

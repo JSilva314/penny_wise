@@ -11,12 +11,14 @@ The Minimum Viable Product will include **essential budgeting features** to allo
 ### Must-Have Features (MVP)
 
 1. **User Authentication**
+
    - Sign up / Sign in / Sign out
    - Email/password authentication
    - Secure session management
    - User profile
 
 2. **Dashboard**
+
    - Overview of current month finances
    - Total income vs total expenses
    - Remaining budget visualization
@@ -24,6 +26,7 @@ The Minimum Viable Product will include **essential budgeting features** to allo
    - Recent transactions list (last 10)
 
 3. **Transaction Management**
+
    - Add income/expense transactions
    - Fields: date, amount, category, description, type (income/expense)
    - Edit existing transactions
@@ -32,6 +35,7 @@ The Minimum Viable Product will include **essential budgeting features** to allo
    - Filter by date range, category, or type
 
 4. **Budget Categories**
+
    - Pre-defined categories (Housing, Food, Transportation, Entertainment, etc.)
    - Set monthly budget limits per category
    - View spending vs budget per category
@@ -64,9 +68,11 @@ These features will be implemented **after** the MVP is complete:
 ## Development Phases
 
 ### Phase 1: Foundation & Setup (Week 1)
+
 **Goal**: Set up development environment and core infrastructure
 
 **Tasks**:
+
 - [x] Initialize Next.js project with TypeScript and Tailwind
 - [ ] Choose and set up database (Recommended: Supabase or Prisma + PostgreSQL)
 - [ ] Set up authentication system (Recommended: Clerk or NextAuth.js)
@@ -81,9 +87,11 @@ These features will be implemented **after** the MVP is complete:
 ---
 
 ### Phase 2: Core Features - Transactions (Week 2)
+
 **Goal**: Implement transaction management
 
 **Tasks**:
+
 - [ ] Design transaction data model
 - [ ] Create transaction form component (add/edit)
 - [ ] Build transaction list view with pagination
@@ -99,9 +107,11 @@ These features will be implemented **after** the MVP is complete:
 ---
 
 ### Phase 3: Categories & Budgets (Week 3)
+
 **Goal**: Implement budget management
 
 **Tasks**:
+
 - [ ] Define default category list
 - [ ] Create category management interface
 - [ ] Build budget setting form (per category)
@@ -116,9 +126,11 @@ These features will be implemented **after** the MVP is complete:
 ---
 
 ### Phase 4: Dashboard & Visualizations (Week 4)
+
 **Goal**: Create main dashboard with data visualization
 
 **Tasks**:
+
 - [ ] Set up chart library (Recharts or Tremor)
 - [ ] Create summary cards (income, expenses, balance)
 - [ ] Build spending by category pie chart
@@ -133,9 +145,11 @@ These features will be implemented **after** the MVP is complete:
 ---
 
 ### Phase 5: Reports & Polish (Week 5)
+
 **Goal**: Add reporting and polish the UI/UX
 
 **Tasks**:
+
 - [ ] Create monthly report page
 - [ ] Implement CSV export functionality
 - [ ] Add data filtering for reports
@@ -151,9 +165,11 @@ These features will be implemented **after** the MVP is complete:
 ---
 
 ### Phase 6: Testing & Deployment (Week 6)
+
 **Goal**: Test thoroughly and deploy to production
 
 **Tasks**:
+
 - [ ] Comprehensive manual testing
 - [ ] Fix bugs and edge cases
 - [ ] Test on different devices/browsers
@@ -173,11 +189,13 @@ These features will be implemented **after** the MVP is complete:
 **SELECTED STACK** ✅
 
 ### Core Stack
+
 - **Framework**: Next.js 16 ✅
 - **Language**: TypeScript ✅
 - **Styling**: Tailwind CSS 4 ✅
 
 ### Additional Tools (Installed)
+
 - **Database**: PostgreSQL + Prisma ORM ✅
 - **Authentication**: NextAuth.js v5 (Auth.js) ✅
 - **UI Components**: shadcn/ui (to be added)
@@ -194,6 +212,7 @@ These features will be implemented **after** the MVP is complete:
 ## Database Schema (MVP)
 
 ### Users Table
+
 ```
 - id (uuid, primary key)
 - email (string, unique)
@@ -203,6 +222,7 @@ These features will be implemented **after** the MVP is complete:
 ```
 
 ### Categories Table
+
 ```
 - id (uuid, primary key)
 - name (string)
@@ -213,6 +233,7 @@ These features will be implemented **after** the MVP is complete:
 ```
 
 ### Budgets Table
+
 ```
 - id (uuid, primary key)
 - user_id (uuid, foreign key)
@@ -225,6 +246,7 @@ These features will be implemented **after** the MVP is complete:
 ```
 
 ### Transactions Table
+
 ```
 - id (uuid, primary key)
 - user_id (uuid, foreign key)
@@ -244,6 +266,7 @@ These features will be implemented **after** the MVP is complete:
 **Estimated MVP Completion**: 6 weeks (part-time) or 3 weeks (full-time)
 
 ### Weekly Breakdown:
+
 - **Week 1**: Foundation & Setup
 - **Week 2**: Transaction Management
 - **Week 3**: Categories & Budgets
@@ -265,7 +288,7 @@ The MVP will be considered successful when:
 ✅ Charts visualize spending patterns  
 ✅ User can filter and export transaction data  
 ✅ App is responsive and works on mobile  
-✅ App is deployed and accessible online  
+✅ App is deployed and accessible online
 
 ---
 
