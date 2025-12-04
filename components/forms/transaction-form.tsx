@@ -56,7 +56,7 @@ export function TransactionForm({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<CreateTransactionData>({
     resolver: zodResolver(createTransactionSchema),
     defaultValues: transaction
@@ -224,7 +224,17 @@ export function TransactionForm({
         <Button
           type="button"
           variant="outline"
-          onClick={onCancel}
+          onClick={() => {
+            if (
+              isDirty &&
+              !confirm(
+                "You have unsaved changes. Are you sure you want to cancel?"
+              )
+            ) {
+              return;
+            }
+            onCancel();
+          }}
           disabled={isLoading}
         >
           Cancel

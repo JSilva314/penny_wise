@@ -37,6 +37,12 @@ export default function TransactionsPage() {
     Transaction | undefined
   >();
   const [filters, setFilters] = useState<Record<string, string>>({});
+  const [pagination, setPagination] = useState({
+    limit: 20,
+    offset: 0,
+    total: 0,
+    hasMore: false,
+  });
   const [stats, setStats] = useState({
     totalIncome: 0,
     totalExpenses: 0,
@@ -46,13 +52,22 @@ export default function TransactionsPage() {
   const fetchTransactions = async () => {
     setIsLoading(true);
     try {
-      const params = new URLSearchParams(filters);
+      const params = new URLSearchParams({
+        ...filters,
+        limit: pagination.limit.toString(),
+        offset: pagination.offset.toString(),
+      });
       const response = await fetch(`/api/transactions?${params}`);
 
       if (!response.ok) throw new Error("Failed to fetch transactions");
 
       const data = await response.json();
       setTransactions(data.transactions);
+      setPagination((prev) => ({
+        ...prev,
+        total: data.pagination.total,
+        hasMore: data.pagination.hasMore,
+      }));
 
       // Calculate stats
       const income = data.transactions
@@ -66,7 +81,7 @@ export default function TransactionsPage() {
       setStats({
         totalIncome: income,
         totalExpenses: expenses,
-        count: data.transactions.length,
+        count: data.pagination.total,
       });
     } catch (error) {
       toast.error("Failed to load transactions");
@@ -77,7 +92,7 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     fetchTransactions();
-  }, [filters]);
+  }, [filters, pagination.offset]);
 
   const handleEdit = (transaction: Transaction) => {
     setEditingTransaction(transaction);
@@ -87,6 +102,10 @@ export default function TransactionsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this transaction?")) return;
 
+    // Optimistic update - remove from UI immediately
+    const originalTransactions = [...transactions];
+    setTransactions(transactions.filter((t) => t.id !== id));
+
     try {
       const response = await fetch(`/api/transactions/${id}`, {
         method: "DELETE",
@@ -95,8 +114,10 @@ export default function TransactionsPage() {
       if (!response.ok) throw new Error("Failed to delete transaction");
 
       toast.success("Transaction deleted!");
-      fetchTransactions();
+      fetchTransactions(); // Refresh to get accurate stats
     } catch (error) {
+      // Revert on error
+      setTransactions(originalTransactions);
       toast.error("Failed to delete transaction");
     }
   };
@@ -110,6 +131,20 @@ export default function TransactionsPage() {
   const handleCancel = () => {
     setIsDialogOpen(false);
     setEditingTransaction(undefined);
+  };
+
+  const handleNextPage = () => {
+    setPagination((prev) => ({
+      ...prev,
+      offset: prev.offset + prev.limit,
+    }));
+  };
+
+  const handlePrevPage = () => {
+    setPagination((prev) => ({
+      ...prev,
+      offset: Math.max(0, prev.offset - prev.limit),
+    }));
   };
 
   return (
@@ -141,6 +176,35 @@ export default function TransactionsPage() {
         onDelete={handleDelete}
         isLoading={isLoading}
       />
+
+      {/* Pagination Controls */}
+      {transactions.length > 0 && (
+        <div className="flex items-center justify-between rounded-lg border bg-card p-4">
+          <p className="text-sm text-muted-foreground">
+            Showing {pagination.offset + 1} -{" "}
+            {Math.min(pagination.offset + pagination.limit, pagination.total)}{" "}
+            of {pagination.total} transactions
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePrevPage}
+              disabled={pagination.offset === 0}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNextPage}
+              disabled={!pagination.hasMore}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
