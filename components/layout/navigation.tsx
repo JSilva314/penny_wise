@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, Wallet } from "lucide-react";
+import { LayoutDashboard, Receipt, Wallet, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigation = [
@@ -20,6 +20,11 @@ const navigation = [
     name: "Budgets",
     href: "/budgets",
     icon: Wallet,
+  },
+  {
+    name: "Reports",
+    href: "/reports",
+    icon: FileText,
   },
 ];
 
