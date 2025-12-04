@@ -6,7 +6,7 @@ import { updateTransactionSchema } from "@/lib/validations/transaction";
 // GET /api/transactions/[id] - Get a specific transaction
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -14,9 +14,11 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const transaction = await prisma.transaction.findUnique({
       where: {
-        id: params.id,
+        id,
         userId: session.user.id, // Ensure user owns this transaction
       },
       include: {
@@ -51,7 +53,7 @@ export async function GET(
 // PUT /api/transactions/[id] - Update a transaction
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -59,10 +61,12 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
+
     // Verify transaction exists and belongs to user
     const existingTransaction = await prisma.transaction.findUnique({
       where: {
-        id: params.id,
+        id,
         userId: session.user.id,
       },
     });
@@ -94,7 +98,7 @@ export async function PUT(
     // Update transaction
     const transaction = await prisma.transaction.update({
       where: {
-        id: params.id,
+        id,
       },
       data: {
         ...(data.amount !== undefined && { amount: data.amount }),
@@ -138,7 +142,7 @@ export async function PUT(
 // DELETE /api/transactions/[id] - Delete a transaction
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -146,10 +150,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
+
     // Verify transaction exists and belongs to user
     const existingTransaction = await prisma.transaction.findUnique({
       where: {
-        id: params.id,
+        id,
         userId: session.user.id,
       },
     });
@@ -164,7 +170,7 @@ export async function DELETE(
     // Delete transaction
     await prisma.transaction.delete({
       where: {
-        id: params.id,
+        id,
       },
     });
 
