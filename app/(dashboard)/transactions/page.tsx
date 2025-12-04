@@ -19,6 +19,7 @@ type Transaction = {
   id: string;
   amount: number;
   type: "INCOME" | "EXPENSE";
+  categoryId: string;
   date: Date | string;
   description: string | null;
   category: {
@@ -95,7 +96,13 @@ export default function TransactionsPage() {
   }, [filters, pagination.offset]);
 
   const handleEdit = (transaction: Transaction) => {
-    setEditingTransaction(transaction);
+    setEditingTransaction({
+      ...transaction,
+      date:
+        typeof transaction.date === "string"
+          ? new Date(transaction.date)
+          : transaction.date,
+    });
     setIsDialogOpen(true);
   };
 
@@ -214,7 +221,17 @@ export default function TransactionsPage() {
             </DialogTitle>
           </DialogHeader>
           <TransactionForm
-            transaction={editingTransaction}
+            transaction={
+              editingTransaction
+                ? {
+                    ...editingTransaction,
+                    date:
+                      typeof editingTransaction.date === "string"
+                        ? new Date(editingTransaction.date)
+                        : editingTransaction.date,
+                  }
+                : undefined
+            }
             onSuccess={handleSuccess}
             onCancel={handleCancel}
           />

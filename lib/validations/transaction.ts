@@ -13,7 +13,7 @@ export const createTransactionSchema = z.object({
     }),
   type: TransactionTypeEnum,
   categoryId: z.string().cuid({ message: "Invalid category ID" }),
-  date: z.coerce.date(),
+  date: z.date(),
   description: z
     .string()
     .max(500, { message: "Description must be less than 500 characters" })

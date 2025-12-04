@@ -6,6 +6,7 @@ type Transaction = {
   id: string;
   amount: number;
   type: "INCOME" | "EXPENSE";
+  categoryId: string;
   date: Date | string;
   description: string | null;
   category: {
