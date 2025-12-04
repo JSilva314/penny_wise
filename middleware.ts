@@ -1,24 +1,39 @@
-import { auth } from "@/auth"
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth
-  const isAuthPage = req.nextUrl.pathname.startsWith("/auth")
+export function middleware(request: NextRequest) {
+  // Get the pathname
+  const path = request.nextUrl.pathname
 
-  if (isAuthPage) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL("/dashboard", req.url))
-    }
-    return NextResponse.next()
+  // Define public paths that don't require authentication
+  const isPublicPath = path === "/" || path === "/auth/signin" || path === "/auth/signup"
+
+  // Get the token from the session cookie
+  const token = request.cookies.get("authjs.session-token")?.value || 
+                request.cookies.get("__Secure-authjs.session-token")?.value
+
+  // Redirect to signin if accessing protected route without token
+  if (!isPublicPath && !token) {
+    return NextResponse.redirect(new URL("/auth/signin", request.url))
   }
 
-  if (!isLoggedIn && req.nextUrl.pathname !== "/") {
-    return NextResponse.redirect(new URL("/auth/signin", req.url))
+  // Redirect to dashboard if accessing auth pages with token
+  if (isPublicPath && token && path.startsWith("/auth")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 
   return NextResponse.next()
-})
+}
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 }
