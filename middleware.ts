@@ -6,8 +6,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Define public paths that don't require authentication
-  const isPublicPath =
-    path === "/" || path === "/auth/signin" || path === "/auth/signup";
+  const isPublicPath = path === "/" || path === "/signin" || path === "/signup";
 
   // Get the token from the session cookie
   const token =
@@ -16,11 +15,11 @@ export function middleware(request: NextRequest) {
 
   // Redirect to signin if accessing protected route without token
   if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL("/auth/signin", request.url));
+    return NextResponse.redirect(new URL("/signin", request.url));
   }
 
   // Redirect to dashboard if accessing auth pages with token
-  if (isPublicPath && token && path.startsWith("/auth")) {
+  if (isPublicPath && token && (path === "/signin" || path === "/signup")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

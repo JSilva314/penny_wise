@@ -1,6 +1,6 @@
-// TODO: Implement utility functions
-// Examples:
-// - cn() for className merging
-// - formatCurrency() for displaying money
-// - formatDate() for date formatting
-// - etc.
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
