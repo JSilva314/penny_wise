@@ -100,24 +100,33 @@ model Transaction {
 
 // Budget model for setting spending limits
 model Budget {
-  id         String   @id @default(cuid())
-  userId     String
-  categoryId String
-  amount     Decimal  @db.Decimal(10, 2)
-  month      Int // 1-12
-  year       Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String       @id @default(cuid())
+  userId    String
+  name      String
+  amount    Decimal      @db.Decimal(10, 2)
+  period    BudgetPeriod
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id])
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categories Category[]
 
-  @@unique([userId, categoryId, month, year])
   @@index([userId])
+  @@index([startDate])
+  @@index([endDate])
 }
 
 // Enum for transaction types
 enum TransactionType {
   INCOME
   EXPENSE
+}
+
+// Enum for budget periods
+enum BudgetPeriod {
+  MONTHLY
+  QUARTERLY
+  YEARLY
 }
