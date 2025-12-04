@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PennyWise 💰
+
+A comprehensive personal budgeting and financial management application built with Next.js.
+
+## Overview
+
+PennyWise is a modern, intuitive budgeting application designed to help users take control of their personal finances. Track income and expenses, create budgets, visualize spending patterns, and make informed financial decisions—all in one place.
+
+## Key Features (Planned)
+
+- **Budget Management**: Create and manage multiple budgets with customizable categories
+- **Expense Tracking**: Log and categorize daily expenses with ease
+- **Income Tracking**: Record various income sources and track earnings over time
+- **Financial Dashboard**: Visualize your financial health with interactive charts and graphs
+- **Spending Analytics**: Gain insights into spending patterns and trends
+- **Goal Setting**: Set and track financial goals (savings, debt reduction, etc.)
+- **Multi-Currency Support**: Handle transactions in different currencies
+- **Reports & Export**: Generate detailed financial reports and export data
+- **Secure Authentication**: Protect your financial data with secure user authentication
+- **Responsive Design**: Access your budget on any device—desktop, tablet, or mobile
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **State Management**: TBD
+- **Database**: TBD
+- **Authentication**: TBD
+- **Charts/Visualization**: TBD
+
+## Project Structure
+
+```
+penny_wise/
+├── app/              # Next.js app directory (routes, layouts, pages)
+├── components/       # Reusable React components
+├── lib/             # Utility functions and shared logic
+├── docs/            # Project documentation and planning
+├── public/          # Static assets
+└── ...config files
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd penny_wise
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🚧 **Currently in initial planning phase** 🚧
 
-## Learn More
+This project is in active development. Check the [Plan.md](./docs/Plan.md) file for the detailed development roadmap.
 
-To learn more about Next.js, take a look at the following resources:
+## Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Project Plan](./docs/Plan.md) - Detailed development plan and roadmap
+- [Suggested Tools](./docs/SuggestedTools.md) - Recommended tools and technologies for MVP
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+This is currently a personal project, but contributions and suggestions are welcome!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+TBD
+
+---
+
+**PennyWise** - Because every penny counts! 🎯
